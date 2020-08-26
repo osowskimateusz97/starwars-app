@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import UserTemplate from 'templates/UserTemplate';
-import FilmItem from 'components/molecules/FilmItem/FilmItem';
+import FilmItem from 'components/organisms/FilmItem/FilmItem';
 import styled from 'styled-components';
 import Logo from 'components/atoms/Logo/Logo';
 import LoadingSpinner from 'components/atoms/LoadingSpinner/LoadingSpinner';
 import NewItemBar from 'components/organisms/NewItemBar/NewItemBar';
-import Paragraph from 'components/atoms/Paragraph/Paragraph';
 const Line = styled.div`
   width: 100%;
   border: 2px dashed #ffffff;
