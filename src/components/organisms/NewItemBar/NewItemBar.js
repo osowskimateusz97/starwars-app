@@ -6,6 +6,7 @@ import ExpandButton from 'components/atoms/ExpandButton/ExpandButton';
 import SubmitButton from 'components/atoms/Button/Button';
 import Paragraph from 'components/atoms/Paragraph/Paragraph';
 import searchIcon from 'assets/search.svg';
+import closeIcon from 'assets/close.svg';
 import axios from 'axios';
 const StyledItemBarWrapper = styled.div`
   width: 100%;
@@ -91,10 +92,16 @@ const StyledJoinPlanet = styled(Paragraph)`
   justify-content: center;
   margin: 3px;
   align-items: center;
+  position: relative;
+  background: url(${closeIcon}) no-repeat;
+  background-position: 90% 50%;
+  cursor: pointer;
 `;
 const StyledJoinPlanetWrapper = styled.div`
   width: 100%;
+  position: relative;
 `;
+
 class NewItemBar extends Component {
   state = {
     title: '',
@@ -183,6 +190,12 @@ class NewItemBar extends Component {
     }));
   };
 
+  handleDeletePlanet = (id) => {
+    this.setState((prevState) => ({
+      listOfJoinPlanet: prevState.listOfJoinPlanet.filter((planet, index) => index !== id),
+    }));
+  };
+
   render() {
     const { title, planet, correctData, isActiveTab, matchResults, listOfJoinPlanet } = this.state;
     return (
@@ -209,8 +222,16 @@ class NewItemBar extends Component {
               ) : null}
               <StyledJoinPlanetWrapper>
                 {listOfJoinPlanet.length > 0 &&
-                  listOfJoinPlanet.map((planet) => (
-                    <StyledJoinPlanet listType>{planet}</StyledJoinPlanet>
+                  listOfJoinPlanet.map((planet, index) => (
+                    <>
+                      <StyledJoinPlanet
+                        onClick={() => this.handleDeletePlanet(index)}
+                        key={planet}
+                        listType
+                      >
+                        {planet}
+                      </StyledJoinPlanet>
+                    </>
                   ))}
               </StyledJoinPlanetWrapper>
               <StyledInput
