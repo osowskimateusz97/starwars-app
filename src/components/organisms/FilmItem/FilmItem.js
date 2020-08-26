@@ -92,7 +92,7 @@ const StyledDataContainer = styled.div`
   grid-template-columns: repeat(7, 100px);
   grid-template-rows: repeat(auto-fill, minmax(60px, 1fr));
 `;
-const FilmItem = ({ title, planetsUrl, onClick, id, isActive }) => {
+const FilmItem = ({ title, data, planetsUrl, onClick, id, isActive, addPlanet, generate }) => {
   const [planets, setPlanets] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -144,39 +144,84 @@ const FilmItem = ({ title, planetsUrl, onClick, id, isActive }) => {
       </StyledWrapper>
     );
   }
-  return (
-    <StyledWrapper>
-      <StyledParagraph title="true">{title}</StyledParagraph>
-      <StyledExpandButton
-        onClick={() => {
-          delay();
-          onClick(id);
-        }}
-        active={isActive}
-      />
-      <StyledWrapperList active={isActive}>
-        <DetailsList />
+  if (!addPlanet) {
+    return (
+      <StyledWrapper>
+        <StyledParagraph title="true">{title}</StyledParagraph>
+        <StyledExpandButton
+          onClick={() => {
+            delay();
+            onClick(id);
+          }}
+          active={isActive}
+        />
+        <StyledWrapperList active={isActive}>
+          <DetailsList />
 
-        {/* generate all data about the planet from the movie */}
-        {planets.map((planet, id) => (
-          <StyledDataContainer key={id}>
-            {fetchId.map((item) => (
-              <StyledParagraph data="true" key={item} listType>
-                {planet[item]}
+          {/* generate all data about the planet from the movie */}
+          {planets.map((planet, id) => (
+            <StyledDataContainer key={id}>
+              {fetchId.map((item) => (
+                <StyledParagraph data="true" key={item} listType>
+                  {planet[item]}
+                </StyledParagraph>
+              ))}
+            </StyledDataContainer>
+          ))}
+        </StyledWrapperList>
+      </StyledWrapper>
+    );
+  } else if (addPlanet === true && generate === true && data !== undefined) {
+    console.log(data);
+    return (
+      <StyledWrapper>
+        <StyledParagraph title="true">{title}</StyledParagraph>
+        <StyledExpandButton
+          onClick={() => {
+            delay();
+            onClick(id);
+          }}
+          active={isActive}
+        />
+        <StyledWrapperList active={isActive}>
+          <DetailsList />
+
+          {/* generate all data about the planet from the movie */}
+          {data.map((item) => (
+            <StyledDataContainer key={item.created}>
+              <StyledParagraph data="true" key={item.name} listType>
+                {item.name}
               </StyledParagraph>
-            ))}
-          </StyledDataContainer>
-        ))}
-      </StyledWrapperList>
-    </StyledWrapper>
-  );
+              <StyledParagraph data="true" key={item.rotation_period} listType>
+                {item.rotation_period}
+              </StyledParagraph>
+              <StyledParagraph data="true" key={item.orbital_period} listType>
+                {item.orbital_period}
+              </StyledParagraph>
+              <StyledParagraph data="true" key={item.diameter} listType>
+                {item.diameter}
+              </StyledParagraph>
+              <StyledParagraph data="true" key={item.climate} listType>
+                {item.climate}
+              </StyledParagraph>
+              <StyledParagraph data="true" key={item.surface_water} listType>
+                {item.surface_water}
+              </StyledParagraph>
+              <StyledParagraph data="true" key={item.population} listType>
+                {item.population}
+              </StyledParagraph>
+            </StyledDataContainer>
+          ))}
+        </StyledWrapperList>
+      </StyledWrapper>
+    );
+  }
 };
 
 FilmItem.propTypes = {
   title: PropTypes.string,
   planetsUrl: PropTypes.array,
   onClick: PropTypes.func,
-  id: PropTypes.number,
   isActive: PropTypes.bool,
 };
 

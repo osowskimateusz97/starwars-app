@@ -110,6 +110,7 @@ class NewItemBar extends Component {
     matchResults: [],
     isActiveTab: false,
     listOfJoinPlanet: [],
+    validate: false,
   };
   handleInputChange = async (e, type) => {
     switch (type) {
@@ -156,19 +157,24 @@ class NewItemBar extends Component {
       .then((matchResults) => this.setState({ matchResults }));
   };
   //validation => if first letter is capital
-  handleAddMovie = ({ title, planet }) => {
+  handleValidateForm = () => {
+    const { listOfJoinPlanet, title, validate } = this.state;
     if (title === '') {
-      return this.setState({
+      this.setState({
         correctData: null,
       });
+      return false;
     }
     if (title[0] === title[0].toLowerCase()) {
-      return this.setState({ correctData: false });
+      this.setState({ correctData: false });
+      return false;
     } else {
       this.setState({
         title: '',
         planet: '',
+        listOfJoinPlanet: '',
       });
+      return true;
     }
   };
   checkShowResult = () => {
@@ -182,8 +188,7 @@ class NewItemBar extends Component {
   handleJoinPlanet = (name) => {
     const { listOfJoinPlanet } = this.state;
     //check if the joined planet is in our list
-    if (listOfJoinPlanet.findIndex((planet) => planet.toLowerCase() === name.toLowerCase()) !== -1)
-      return;
+
     this.setState((prev) => ({
       listOfJoinPlanet: [...prev.listOfJoinPlanet, name],
       planet: '',
@@ -197,7 +202,16 @@ class NewItemBar extends Component {
   };
 
   render() {
-    const { title, planet, correctData, isActiveTab, matchResults, listOfJoinPlanet } = this.state;
+    const {
+      title,
+      planet,
+      correctData,
+      isActiveTab,
+      matchResults,
+      listOfJoinPlanet,
+      validate,
+    } = this.state;
+    const { handleAddMovie } = this.props;
     return (
       <>
         <StyledItemBarWrapper isActiveTab={isActiveTab}>
@@ -259,7 +273,11 @@ class NewItemBar extends Component {
                   ))}
                 </StyledResultsWrapper>
               )}
-              <StyledSubmitButton onClick={() => this.handleAddMovie({ title, planet })}>
+              <StyledSubmitButton
+                onClick={() => {
+                  handleAddMovie(this.handleValidateForm(), title, listOfJoinPlanet);
+                }}
+              >
                 ADD MOVIE
               </StyledSubmitButton>
             </>
