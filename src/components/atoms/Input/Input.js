@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './Input.module.scss';
 
-const Input = ({ name, label, placeholder, onChange, value, children }) => (
+const Input = ({ name, label, placeholder, onChange, value, isActive, children }) => (
   <div className={styles.formItem}>
     <input
       autoComplete="off"
@@ -29,12 +29,16 @@ Input.propTypes = {
   placeholder: PropTypes.string,
   onChange: PropTypes.func,
   value: PropTypes.string,
+  isActive: PropTypes.bool,
+  children: PropTypes.node,
 };
 Input.defaultProps = {
   name: '',
   label: '',
   placeholder: '',
   onChange: null,
+  isActive: false,
+  children: null,
 };
 
 export default Input;

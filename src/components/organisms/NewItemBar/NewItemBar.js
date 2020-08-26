@@ -13,7 +13,7 @@ const StyledItemBarWrapper = styled.div`
   box-shadow: 0px 4px 12px rgba(224, 230, 238, 0.5);
   border-radius: 4px;
   margin-bottom: 20px;
-  max-height: 350px;
+  max-height: 380px;
   margin-top: 30px;
   display: flex;
   flex-direction: column;
@@ -21,11 +21,18 @@ const StyledItemBarWrapper = styled.div`
   justify-content: center;
   position: relative;
   padding: 20px;
-  ${({ wrapCard }) =>
-    wrapCard &&
+  height: 60px;
+  ${({ isActiveTab }) =>
+    isActiveTab &&
     css`
-      height: 100px;
+      height: 50vh;
     `}
+`;
+const StyledTitleBar = styled(Paragraph)`
+  position: absolute;
+  top: 15px;
+  left: 5%;
+  line-height: 30px;
 `;
 const StyledExpandButton = styled(ExpandButton)`
   position: absolute;
@@ -48,19 +55,20 @@ const Search = styled.div`
   width: 20px;
   height: 20px;
   position: absolute;
-  right: 10px;
+  right: 2%;
   top: 50%;
   transform: translateY(-50%);
 `;
 const StyledInput = styled(Input)`
   position: relative;
 `;
+
 class NewItemBar extends Component {
   state = {
     title: '',
     planet: '',
     correctData: '',
-    wrapCard: true,
+    isActiveTab: false,
   };
   handleInputChange = (e, type) => {
     switch (type) {
@@ -79,6 +87,12 @@ class NewItemBar extends Component {
         break;
     }
   };
+  handleShowBar = () => {
+    this.setState((prevState) => ({
+      isActiveTab: !prevState.isActiveTab,
+    }));
+  };
+
   handleAddMovie = ({ title, planet }) => {
     if (title === '') {
       return this.setState({
@@ -95,41 +109,43 @@ class NewItemBar extends Component {
     }
   };
   render() {
-    const { title, planet, correctData, wrapCard } = this.state;
+    const { title, planet, correctData, isActiveTab } = this.state;
     return (
       <>
-        <StyledItemBarWrapper>
-          <Paragraph>Add movie</Paragraph>
-          <StyledExpandButton
-            wrapCard={wrapCard}
-            onClick={() => this.setState((prevState) => ({ wrapCard: !prevState.wrapCArd }))}
-          />
-          <Input
-            onChange={(e) => this.handleInputChange(e, 'title')}
-            value={title}
-            name="title"
-            label="Movie title"
-            placeholder="Please enter the title of the movie"
-          />
-          {correctData === false ? (
-            <StyledErrorMsg listType>
-              Movie title name must start with a capital letter.
-            </StyledErrorMsg>
-          ) : correctData === null ? (
-            <StyledErrorMsg listType>Please type the title of the movie.</StyledErrorMsg>
-          ) : null}
-          <StyledInput
-            value={planet}
-            onChange={(e) => this.handleInputChange(e, 'planet')}
-            name="planet"
-            placeholder="Search for the planet in database"
-            label="Add planet"
-          >
-            <Search />
-          </StyledInput>
-          <SubmitButton onClick={() => this.handleAddMovie({ title, planet })}>
-            ADD MOVIE
-          </SubmitButton>
+        <StyledItemBarWrapper isActiveTab={isActiveTab}>
+          <StyledTitleBar>Add movie</StyledTitleBar>
+          <StyledExpandButton active={isActiveTab} onClick={this.handleShowBar} />
+
+          {isActiveTab && (
+            <>
+              <Input
+                onChange={(e) => this.handleInputChange(e, 'title')}
+                value={title}
+                name="title"
+                label="Movie title"
+                placeholder="Please enter the title of the movie"
+              />
+              {correctData === false ? (
+                <StyledErrorMsg listType>
+                  Movie title name must start with a capital letter.
+                </StyledErrorMsg>
+              ) : correctData === null ? (
+                <StyledErrorMsg listType>Please type the title of the movie.</StyledErrorMsg>
+              ) : null}
+              <StyledInput
+                value={planet}
+                onChange={(e) => this.handleInputChange(e, 'planet')}
+                name="planet"
+                placeholder="Search for the planet in database"
+                label="Add planet"
+              >
+                <Search />
+              </StyledInput>
+              <SubmitButton onClick={() => this.handleAddMovie({ title, planet })}>
+                ADD MOVIE
+              </SubmitButton>
+            </>
+          )}
         </StyledItemBarWrapper>
       </>
     );
