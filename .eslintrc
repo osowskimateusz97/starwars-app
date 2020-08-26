@@ -5,10 +5,15 @@
     "window": true,
     "document": true
   },
+  "plugins": ["react", "react-hooks"],
   "rules": {
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
     "import/prefer-default-export": 0,
     "import/no-extraneous-dependencies": 0,
-    "import/no-unresolved": 1,
+    "import/no-unresolved": 0,
+    "react/prop-types": 0,
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }]
-  }
+  },
+  "properties": "never"
 }

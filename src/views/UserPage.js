@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import UserTemplate from 'templates/UserTemplate';
 import FilmItem from 'components/molecules/FilmItem/FilmItem';
 import styled from 'styled-components';
 import Logo from 'components/atoms/Logo/Logo';
 import LoadingSpinner from 'components/atoms/LoadingSpinner/LoadingSpinner';
+import NewItemBar from 'components/organisms/NewItemBar/NewItemBar';
+import Paragraph from 'components/atoms/Paragraph/Paragraph';
 const Line = styled.div`
   width: 100%;
   border: 2px dashed #ffffff;
@@ -16,11 +19,11 @@ const StyledWrapper = styled.div`
   align-items: center;
   justify-content: space-evenly;
 `;
-const UserPage = () => {
+
+const UserPage = ({ correctData }) => {
   const [films, setFilms] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isActive, setActive] = useState(null);
-
   useEffect(() => {
     async function fetchFilms() {
       let res = await fetch('https://swapi.dev/api/films/?format=json');
@@ -39,7 +42,7 @@ const UserPage = () => {
           <Logo />
           <LoadingSpinner />
           <Line />
-          <FilmItem add />
+          <FilmItem />
         </StyledWrapper>
       </UserTemplate>
     );
@@ -48,20 +51,24 @@ const UserPage = () => {
     <UserTemplate>
       <StyledWrapper>
         <Logo />
-        {films.map(({ title, planets, episode_id }, id) => (
+        {films.map(({ title, planets, episode_id: episodeId }, id) => (
           <FilmItem
             onClick={(id) => (id === isActive ? setActive(null) : setActive(id))}
             isActive={id === isActive && true}
-            key={episode_id}
+            key={episodeId}
             id={id}
             title={title}
             planetsUrl={planets}
           />
         ))}
         <Line />
+        <NewItemBar correctData={correctData}></NewItemBar>
       </StyledWrapper>
     </UserTemplate>
   );
 };
 
+UserPage.propTypes = {
+  correctData: PropTypes.bool,
+};
 export default UserPage;

@@ -2,17 +2,20 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './Input.module.scss';
 
-const Input = ({ name, label, maxLength }) => (
+const Input = ({ name, label, placeholder, onChange, value, children }) => (
   <div className={styles.formItem}>
     <input
+      autoComplete="off"
       className={styles.input}
       type="text"
+      value={value}
       name={name}
       id={name}
       required
-      maxLength={maxLength}
-      placeholder=" "
+      placeholder={placeholder}
+      onChange={onChange}
     />
+    {children}
     <label className={styles.label} htmlFor={name}>
       {label}
     </label>
@@ -21,14 +24,17 @@ const Input = ({ name, label, maxLength }) => (
 );
 
 Input.propTypes = {
-  name: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
-  maxLength: PropTypes.number,
+  name: PropTypes.string,
+  label: PropTypes.string,
+  placeholder: PropTypes.string,
+  onChange: PropTypes.func,
+  value: PropTypes.string,
 };
-
 Input.defaultProps = {
-  tag: 'input',
-  maxLength: 200,
+  name: '',
+  label: '',
+  placeholder: '',
+  onChange: null,
 };
 
 export default Input;

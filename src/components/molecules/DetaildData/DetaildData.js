@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import ListElement from 'components/atoms/ListElement/ListElement';
-import axios from 'axios';
 import LoadingSpinner from 'components/atoms/LoadingSpinner/LoadingSpinner';
 const StyledGridWrapper = styled.div`
   display: grid;
@@ -31,7 +30,6 @@ class DetaildData extends Component {
   }
 
   render() {
-    const { activeId, planet } = this.props;
     const { loading } = this.state;
 
     if (loading) {

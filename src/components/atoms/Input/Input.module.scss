@@ -1,5 +1,5 @@
 .formItem {
-  width: 100%;
+  width: 70%;
   margin: 24px 0;
   position: relative;
   flex-shrink: 0;
@@ -19,6 +19,7 @@
   left: 0;
   transition: 0.2s ease-out all;
   font-size: 16px;
+  opacity: 0;
 }
 
 .input,
@@ -46,13 +47,17 @@
   top: -22px;
   font-size: 13px;
 }
-
+.input:focus + .label {
+  opacity: 1;
+}
 .input:not(:placeholder-shown) + .label,
 .textarea:not(:placeholder-shown) + .label {
   top: -22px;
   font-size: 13px;
 }
-
+.input:not(:placeholder-shown) + .label {
+  opacity: 1;
+}
 .input:focus ~ .formItemBar,
 .textarea:focus ~ .formItemBar {
   background: #1e58ff;

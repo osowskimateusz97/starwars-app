@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import Paragraph from 'components/atoms/Paragraph/Paragraph';
 import styled, { css, keyframes } from 'styled-components';
 import ExpandButton from 'components/atoms/ExpandButton/ExpandButton';
 import DetailsList from 'components/molecules/DetailsList/DetailsList';
 import LoadingSpinner from 'components/atoms/LoadingSpinner/LoadingSpinner';
-import NewItemBar from 'components/organisms/NewItemBar/NewItemBar';
 
 const StyledWrapper = styled.div`
   width: 100%;
@@ -62,8 +62,8 @@ const StyledWrapperList = styled.div`
   grid-row: 2/3;
   height: 0;
   opacity: 0;
-  transform: translateX(-100%);
-  transition: transform 0.2s ease, opacity 0.4s ease-in-out, height 0.2s ease;
+
+  transition: opacity 0.4s ease-in-out, height 0.2s ease;
   ${({ active }) =>
     active &&
     css`
@@ -99,7 +99,6 @@ const FilmItem = ({ title, planetsUrl, onClick, id, isActive }) => {
   // fetch maped data about planets from fetched data from props
   useEffect(() => {
     if (planetsUrl !== undefined) {
-      // eslint-disable-next-line no-inner-declarations
       function fetchPlanets() {
         planetsUrl.forEach(async (planet) => {
           let res = await fetch(planet);
@@ -109,7 +108,7 @@ const FilmItem = ({ title, planetsUrl, onClick, id, isActive }) => {
       }
       fetchPlanets();
     }
-  }, []);
+  }, [planetsUrl]);
 
   // used delay for slower loading data
   const delay = () =>
@@ -161,8 +160,8 @@ const FilmItem = ({ title, planetsUrl, onClick, id, isActive }) => {
         {/* generate all data about the planet from the movie */}
         {planets.map((planet, id) => (
           <StyledDataContainer key={id}>
-            {fetchId.map((item, index) => (
-              <StyledParagraph data="true" key={index} listType>
+            {fetchId.map((item) => (
+              <StyledParagraph data="true" key={item} listType>
                 {planet[item]}
               </StyledParagraph>
             ))}
@@ -171,6 +170,14 @@ const FilmItem = ({ title, planetsUrl, onClick, id, isActive }) => {
       </StyledWrapperList>
     </StyledWrapper>
   );
+};
+
+FilmItem.propTypes = {
+  title: PropTypes.string,
+  planetsUrl: PropTypes.array,
+  onClick: PropTypes.func,
+  id: PropTypes.number,
+  isActive: PropTypes.bool,
 };
 
 export default FilmItem;

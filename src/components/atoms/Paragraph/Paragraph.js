@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-
+import PropTypes from 'prop-types';
 const Paragraph = styled.p`
   font-size: ${({ theme: { fontSize } }) => fontSize.bigSize};
   font-weight: bold;
@@ -12,5 +12,7 @@ const Paragraph = styled.p`
       font-size: ${({ theme: { fontSize } }) => fontSize.smallSize};
     `}
 `;
-
+Paragraph.propTypes = {
+  listType: PropTypes.string,
+};
 export default Paragraph;
