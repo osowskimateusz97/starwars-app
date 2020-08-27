@@ -104,6 +104,11 @@ const StyledJoinPlanet = styled(Paragraph)`
   background: url(${closeIcon}) no-repeat;
   background-position: 90% 50%;
   cursor: pointer;
+  @media (max-width: 600px) {
+    width: 80px;
+    height: 25px;
+    background-size: 10%;
+  }
 `;
 const StyledJoinPlanetWrapper = styled.div`
   width: 100%;
