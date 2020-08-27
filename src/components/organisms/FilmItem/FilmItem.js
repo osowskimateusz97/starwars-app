@@ -34,7 +34,8 @@ const StyledParagraph = styled(Paragraph)`
   position: relative;
   left: 5%;
   top: 15px;
-
+  
+  
   ${({ title }) =>
     title &&
     css`
@@ -49,6 +50,28 @@ const StyledParagraph = styled(Paragraph)`
       animation-delay: 0.5;
       justify-self: center;
     `}
+    ${({ isActive, data }) =>
+      isActive &&
+      data &&
+      css`
+        display: block;
+      `}
+`;
+const StyledDetailsList = styled(DetailsList)`
+  display: none;
+  ${({ isActive }) =>
+    isActive &&
+    css`
+      display: block;
+    `}
+  @media(max-width:800px) {
+    display: none;
+    ${({ isActive }) =>
+      isActive &&
+      css`
+        display: block;
+      `}
+  }
 `;
 const StyledExpandButton = styled(ExpandButton)`
   position: relative;
@@ -68,11 +91,8 @@ const StyledWrapperList = styled.div`
   height: 0;
   opacity: 0;
   position: relative;
-  @media (max-width: 800px) {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-auto-flow: column;
-  }
+  display: none;
+
   transition: opacity 0.4s ease-in-out, height 0.2s ease;
   ${({ active }) =>
     active &&
@@ -80,6 +100,7 @@ const StyledWrapperList = styled.div`
       transform: translate(0);
       height: 100%;
       opacity: 1;
+      display: block;
     `}
   ${({ loading, active }) =>
     loading &&
@@ -87,6 +108,11 @@ const StyledWrapperList = styled.div`
     css`
       height: 150px;
     `}
+    @media (max-width: 800px) {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-flow: column;
+  }
 `;
 const StyledLoadingSpinner = styled(LoadingSpinner)`
   position: absolute;
@@ -97,11 +123,11 @@ const StyledDataContainer = styled.div`
   width: 100%;
   max-width: 730px;
   z-index: 99999;
-  display: grid;
   padding: 0;
   position: relative;
   grid-template-columns: repeat(7, 100px);
   grid-template-rows: repeat(auto-fill, minmax(60px, 1fr));
+  display: none;
   @media (max-width: 800px) {
     margin-bottom: 30px;
     grid-template-columns: 1fr;
@@ -113,6 +139,11 @@ const StyledDataContainer = styled.div`
       background-color: rgba(229, 229, 229, 0.5);
     }
   }
+  ${({ isActive }) =>
+    isActive &&
+    css`
+      display: grid;
+    `}
 `;
 const FilmItem = ({ title, data, planetsUrl, onClick, id, isActive, addPlanet, generate }) => {
   const [planets, setPlanets] = useState([]);
@@ -164,7 +195,7 @@ const FilmItem = ({ title, data, planetsUrl, onClick, id, isActive, addPlanet, g
           active={isActive}
         />
         <StyledWrapperList loading="true" active={isActive}>
-          <DetailsList />
+          <StyledDetailsList isActive={isActive} />
           <StyledLoadingSpinner />
         </StyledWrapperList>
       </StyledWrapper>
@@ -182,13 +213,17 @@ const FilmItem = ({ title, data, planetsUrl, onClick, id, isActive, addPlanet, g
           active={isActive}
         />
         <StyledWrapperList active={isActive}>
-          {widthSize <= 800 && planets.map((planet, key) => <DetailsList key={key} />)}
+          {widthSize <= 800 ? (
+            planets.map((planet, key) => <StyledDetailsList isActive={isActive} key={key} />)
+          ) : (
+            <StyledDetailsList isActive={isActive} />
+          )}
 
           {/* generate all data about the planet from the movie */}
           {planets.map((planet, id) => (
-            <StyledDataContainer key={id}>
+            <StyledDataContainer isActive={isActive} key={id}>
               {fetchId.map((item) => (
-                <StyledParagraph data="true" key={item} listType>
+                <StyledParagraph isActive={isActive} data="true" key={item} listType>
                   {planet[item]}
                 </StyledParagraph>
               ))}
@@ -209,11 +244,10 @@ const FilmItem = ({ title, data, planetsUrl, onClick, id, isActive, addPlanet, g
           active={isActive}
         />
         <StyledWrapperList active={isActive}>
-          <DetailsList />
-
           {/* generate all data about the planet from the movie */}
+          <StyledDetailsList isActive={isActive} />
           {data.map((item) => (
-            <StyledDataContainer key={item.created}>
+            <StyledDataContainer isActive={isActive} key={item.created}>
               <StyledParagraph data="true" key={item.name} listType>
                 {item.name}
               </StyledParagraph>

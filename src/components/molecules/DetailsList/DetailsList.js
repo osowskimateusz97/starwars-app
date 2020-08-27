@@ -3,9 +3,10 @@ import ListElement from 'components/atoms/ListElement/ListElement';
 import styled, { css } from 'styled-components';
 
 const StyledWrapper = styled.div`
-  display: grid;
+  display: none;
   grid-template-columns: repeat(7, 100px);
   grid-template-rows: 1fr;
+
   @media (max-width: 800px) {
     height: 100%;
     grid-template-columns: 1fr;
@@ -14,6 +15,11 @@ const StyledWrapper = styled.div`
     grid-column: 1 / span 1;
     margin-top: 7px;
   }
+  ${({ isActive }) =>
+    isActive &&
+    css`
+      display: grid;
+    `}
 `;
 const StyledListElement = styled(ListElement)`
   padding: 0;
@@ -37,9 +43,9 @@ const StyledListElement = styled(ListElement)`
       padding-left: 13px;
     `}
 `;
-const DetailsList = () => {
+const DetailsList = ({ isActive }) => {
   return (
-    <StyledWrapper>
+    <StyledWrapper isActive={isActive}>
       <StyledListElement planetName>Planet Name</StyledListElement>
       <StyledListElement>Rotation period</StyledListElement>
       <StyledListElement>Orbital period</StyledListElement>
