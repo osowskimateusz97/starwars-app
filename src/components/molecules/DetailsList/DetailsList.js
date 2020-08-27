@@ -6,6 +6,13 @@ const StyledWrapper = styled.div`
   display: flex;
   width: 100%;
   justify-content: space-around;
+  @media (max-width: 800px) {
+    position: absolute;
+    flex-direction: column;
+    justify-content: center;
+    margin-bottom: 15px;
+    margin-top: 7px;
+  }
 `;
 
 const DetailsList = () => {

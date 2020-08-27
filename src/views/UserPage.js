@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import UserTemplate from 'templates/UserTemplate';
 import FilmItem from 'components/organisms/FilmItem/FilmItem';
 import styled from 'styled-components';
@@ -20,7 +19,7 @@ const StyledWrapper = styled.div`
   justify-content: space-evenly;
 `;
 
-const UserPage = ({ correctData }) => {
+const UserPage = () => {
   const [films, setFilms] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isActive, setActive] = useState(null);
@@ -85,7 +84,6 @@ const UserPage = ({ correctData }) => {
               isActive={newMovie.title === isActive && true}
               key={newMovie.title}
               id={newMovie}
-              title={newMovie.title}
             />
           ))}
         <Line />
@@ -99,7 +97,4 @@ const UserPage = ({ correctData }) => {
   );
 };
 
-UserPage.propTypes = {
-  correctData: PropTypes.bool,
-};
 export default UserPage;

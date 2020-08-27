@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Input from 'components/atoms/Input/Input';
 import { PLANETS_API } from 'api';
 import styled, { css } from 'styled-components';
@@ -41,6 +42,9 @@ const StyledExpandButton = styled(ExpandButton)`
   position: absolute;
   right: 10px;
   top: 20px;
+  @media (max-width: 800px) {
+    right: 40px;
+  }
 `;
 const StyledErrorMsg = styled(Paragraph)`
   color: red;
@@ -129,6 +133,8 @@ class NewItemBar extends Component {
         });
         await this.handleFetchPlanet();
         break;
+      default:
+        return;
     }
   };
   handleShowBar = () => {
@@ -158,7 +164,7 @@ class NewItemBar extends Component {
   };
   //validation => if first letter is capital
   handleValidateForm = () => {
-    const { listOfJoinPlanet, title, validate } = this.state;
+    const { title } = this.state;
     if (title === '') {
       this.setState({
         correctData: null,
@@ -186,7 +192,6 @@ class NewItemBar extends Component {
   };
 
   handleJoinPlanet = (name) => {
-    const { listOfJoinPlanet } = this.state;
     //check if the joined planet is in our list
 
     this.setState((prev) => ({
@@ -202,15 +207,7 @@ class NewItemBar extends Component {
   };
 
   render() {
-    const {
-      title,
-      planet,
-      correctData,
-      isActiveTab,
-      matchResults,
-      listOfJoinPlanet,
-      validate,
-    } = this.state;
+    const { title, planet, correctData, isActiveTab, matchResults, listOfJoinPlanet } = this.state;
     const { handleAddMovie } = this.props;
     return (
       <>
@@ -288,4 +285,10 @@ class NewItemBar extends Component {
   }
 }
 
+NewItemBar.propTypes = {
+  handleAddMovie: PropTypes.func,
+};
+NewItemBar.defaultProps = {
+  handleAddMovie: PropTypes.null,
+};
 export default NewItemBar;

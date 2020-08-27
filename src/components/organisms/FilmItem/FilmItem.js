@@ -17,6 +17,9 @@ const StyledWrapper = styled.div`
   display: grid;
   grid-template-columns: repeat(7, 100px);
   grid-template-rows: repeat(auto-fill, minmax(60px, 1fr));
+  @media (max-width: 800px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
 `;
 
 const showingAnimation = keyframes`
@@ -30,6 +33,7 @@ const StyledParagraph = styled(Paragraph)`
   position: relative;
   left: 5%;
   top: 15px;
+
   ${({ title }) =>
     title &&
     css`
@@ -44,6 +48,9 @@ const StyledParagraph = styled(Paragraph)`
       animation-delay: 0.5;
       justify-self: center;
     `}
+    @media (max-width: 800px) {
+    margin-bottom: 15px;
+  }
 `;
 const StyledExpandButton = styled(ExpandButton)`
   position: relative;
@@ -91,11 +98,16 @@ const StyledDataContainer = styled.div`
   padding: 0;
   grid-template-columns: repeat(7, 100px);
   grid-template-rows: repeat(auto-fill, minmax(60px, 1fr));
+  @media (max-width: 800px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 30px;
+  }
 `;
 const FilmItem = ({ title, data, planetsUrl, onClick, id, isActive, addPlanet, generate }) => {
   const [planets, setPlanets] = useState([]);
   const [loading, setLoading] = useState(true);
-
   // fetch maped data about planets from fetched data from props
   useEffect(() => {
     if (planetsUrl !== undefined) {
@@ -172,7 +184,6 @@ const FilmItem = ({ title, data, planetsUrl, onClick, id, isActive, addPlanet, g
       </StyledWrapper>
     );
   } else if (addPlanet === true && generate === true && data !== undefined) {
-    console.log(data);
     return (
       <StyledWrapper>
         <StyledParagraph title="true">{title}</StyledParagraph>
@@ -224,5 +235,10 @@ FilmItem.propTypes = {
   onClick: PropTypes.func,
   isActive: PropTypes.bool,
 };
-
+FilmItem.defaultProps = {
+  title: '',
+  planetsUrl: undefined,
+  onClick: null,
+  isActive: false,
+};
 export default FilmItem;
