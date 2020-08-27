@@ -183,7 +183,7 @@ const FilmItem = ({ title, data, planetsUrl, onClick, id, isActive, addPlanet, g
         />
         <StyledWrapperList active={isActive}>
           {widthSize <= 800 && planets.map((planet, key) => <DetailsList key={key} />)}
-          <DetailsList />
+
           {/* generate all data about the planet from the movie */}
           {planets.map((planet, id) => (
             <StyledDataContainer key={id}>
