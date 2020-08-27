@@ -17,6 +17,7 @@ const StyledWrapper = styled.div`
   display: grid;
   grid-template-columns: repeat(7, 100px);
   grid-template-rows: repeat(auto-fill, minmax(60px, 1fr));
+
   @media (max-width: 800px) {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -48,9 +49,6 @@ const StyledParagraph = styled(Paragraph)`
       animation-delay: 0.5;
       justify-self: center;
     `}
-    @media (max-width: 800px) {
-    margin-bottom: 15px;
-  }
 `;
 const StyledExpandButton = styled(ExpandButton)`
   position: relative;
@@ -69,7 +67,12 @@ const StyledWrapperList = styled.div`
   grid-row: 2/3;
   height: 0;
   opacity: 0;
-
+  position: relative;
+  @media (max-width: 800px) {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-flow: column;
+  }
   transition: opacity 0.4s ease-in-out, height 0.2s ease;
   ${({ active }) =>
     active &&
@@ -96,18 +99,25 @@ const StyledDataContainer = styled.div`
   z-index: 99999;
   display: grid;
   padding: 0;
+  position: relative;
   grid-template-columns: repeat(7, 100px);
   grid-template-rows: repeat(auto-fill, minmax(60px, 1fr));
   @media (max-width: 800px) {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     margin-bottom: 30px;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(7, 50px);
+    margin-top: 7px;
+    margin-left: 10px;
+    /* padding: 20px; */
+    :nth-child(3, 4, 7, 8) {
+      background-color: rgba(229, 229, 229, 0.5);
+    }
   }
 `;
 const FilmItem = ({ title, data, planetsUrl, onClick, id, isActive, addPlanet, generate }) => {
   const [planets, setPlanets] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [widthSize, setWidthSize] = useState(window.innerWidth);
   // fetch maped data about planets from fetched data from props
   useEffect(() => {
     if (planetsUrl !== undefined) {
@@ -121,6 +131,10 @@ const FilmItem = ({ title, data, planetsUrl, onClick, id, isActive, addPlanet, g
       fetchPlanets();
     }
   }, [planetsUrl]);
+  useEffect(() => {
+    const handleResize = () => setWidthSize(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+  });
 
   // used delay for slower loading data
   const delay = () =>
@@ -168,8 +182,8 @@ const FilmItem = ({ title, data, planetsUrl, onClick, id, isActive, addPlanet, g
           active={isActive}
         />
         <StyledWrapperList active={isActive}>
+          {widthSize <= 800 && planets.map((planet, key) => <DetailsList key={key} />)}
           <DetailsList />
-
           {/* generate all data about the planet from the movie */}
           {planets.map((planet, id) => (
             <StyledDataContainer key={id}>

@@ -62,3 +62,13 @@
 .textarea:focus ~ .formItemBar {
   background: #1e58ff;
 }
+@media (max-width: 800px) {
+  .input {
+    font-size: 12px;
+  }
+}
+@media (max-width: 350px) {
+  .input {
+    font-size: 10px;
+  }
+}

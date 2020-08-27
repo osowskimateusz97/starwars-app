@@ -1,30 +1,52 @@
 import React from 'react';
 import ListElement from 'components/atoms/ListElement/ListElement';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 const StyledWrapper = styled.div`
-  display: flex;
-  width: 100%;
-  justify-content: space-around;
+  display: grid;
+  grid-template-columns: repeat(7, 100px);
+  grid-template-rows: 1fr;
   @media (max-width: 800px) {
-    position: absolute;
-    flex-direction: column;
-    justify-content: center;
+    height: 100%;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(7, 50px);
     margin-bottom: 15px;
+    grid-column: 1 / span 1;
     margin-top: 7px;
   }
 `;
+const StyledListElement = styled(ListElement)`
+  padding: 0;
+  justify-self: center;
+  @media (max-width: 800px) {
+    justify-self: start;
 
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+  }
+  ${({ addPaddingBig }) =>
+    addPaddingBig &&
+    css`
+      padding-left: 15px;
+    `}
+  ${({ addPaddingSmall }) =>
+    addPaddingSmall &&
+    css`
+      padding-left: 13px;
+    `}
+`;
 const DetailsList = () => {
   return (
     <StyledWrapper>
-      <ListElement planetName>Planet Name</ListElement>
-      <ListElement>Rotation period</ListElement>
-      <ListElement>Orbital period</ListElement>
-      <ListElement>Diameter</ListElement>
-      <ListElement>Climate</ListElement>
-      <ListElement>Surface water</ListElement>
-      <ListElement>Population</ListElement>
+      <StyledListElement planetName>Planet Name</StyledListElement>
+      <StyledListElement>Rotation period</StyledListElement>
+      <StyledListElement>Orbital period</StyledListElement>
+      <StyledListElement addPaddingBig> Diameter</StyledListElement>
+      <StyledListElement addPaddingSmall>Climate</StyledListElement>
+      <StyledListElement>Surface water</StyledListElement>
+      <StyledListElement>Population</StyledListElement>
     </StyledWrapper>
   );
 };

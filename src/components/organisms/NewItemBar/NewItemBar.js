@@ -71,6 +71,10 @@ const Search = styled.div`
   right: 2%;
   top: 50%;
   transform: translateY(-50%);
+  @media (max-width: 600px) {
+    width: 15px;
+    height: 15px;
+  }
 `;
 const StyledInput = styled(Input)`
   position: relative;
